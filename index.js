@@ -52,7 +52,7 @@ app.all('/pull', (req, res) => {
 	});
 
 	ls.stderr.on('data', (data) => {
-		res.write(`stderr: ${data}`);
+		res.write(`${data}`);
 	});
 	ls.on('close', (code) => {
 		res.end(`child process exited with code ${code}`);

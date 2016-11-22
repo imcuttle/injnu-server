@@ -48,13 +48,16 @@ app.all('/pull', (req, res) => {
 	});
 	var ls = require('child_process').spawn('git', ['pull', 'origin', 'master'])
 	ls.stdout.on('data', (data) => {
+		console.log(data)
 		res.write(`${data}`);
 	});
 
 	ls.stderr.on('data', (data) => {
+		console.log(data)
 		res.write(`${data}`);
 	});
 	ls.on('close', (code) => {
+		console.log(`child process exited with code ${code}`)
 		res.end(`child process exited with code ${code}`);
 	});
 

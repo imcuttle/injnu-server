@@ -8,7 +8,7 @@ var path = require('path')
 var protect = require('./protect');
 var api = require('./api');
 const g = {api, protect}
-process.env.PORT = process.env.PORT || 9669
+process.env.PORT = process.env.PORT || 8668
 
 var http = require('http').createServer(app).listen(process.env.PORT, () => {
 	console.log("server run on Port %d.", http.address().port);

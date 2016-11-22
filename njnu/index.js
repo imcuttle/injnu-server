@@ -9,7 +9,7 @@ var fs = require('fs')
 var crypto = require('crypto');
 function md5 (text) {
 	return crypto.createHash('md5').update(text).digest('hex');
-};
+}
 
 const CACHE =
 	!fs.existsSync(CACHEPATH)
@@ -189,7 +189,7 @@ module.exports = {
 			return spider.postFormData(FURL, 'jq', form, {'Cookie': ct.cookie})
 			.then($=>this.parseFaceHtml($))
 		}).then(o=>{
-			CACHE.faceMd5[_md5]!=o
+			CACHE.faceMd5[_md5]=o
 			return o
 		})
 	},

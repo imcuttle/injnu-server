@@ -372,7 +372,7 @@ api.post('/face/base64', (req, res) => {
 		} else {
 			var filename = `${sender+'-'+Date.now()}.${p.basename(data.type)}`
 			njnu.faceMatch(data.data, data.type, data.data.length, filename)
-			.then(list=>obj(200, list))
+			.then(list=>list.length>0?obj(200, list):obj(400, '没有找到匹配结果'))
 			.catch(err=>obj(502, err.message))
 			.then(x=>{
 				res.json(x)
@@ -397,7 +397,7 @@ api.post('/face/url', (req, res) => {
 			return
 		}
 		njnu.faceMatchUrl(data)
-		.then(list=>obj(200, list))
+		.then(list=>list.length>0?obj(200, list):obj(400, '没有找到匹配结果'))
 		.catch(err=>obj(502, err.message))
 		.then(x=>{
 			res.json(x)

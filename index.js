@@ -29,7 +29,7 @@ app.use((req, res, next) => {
 })
 
 app.all('/', (req, res, next) => {
-	res.end('app ok!');
+	res.end('Hi Njnu!');
 })
 
 

@@ -46,7 +46,7 @@ app.all('/pull', (req, res) => {
 		'Cache-Control': 'no-cache',
 		'Connection': 'keep-alive'
 	});
-	var ls = require('child_process').spawn('./pull.sh', ['master'])
+	var ls = require('child_process').spawn('git', ['pull', 'origin', 'master'])
 	ls.stdout.on('data', (data) => {
 		res.write(`${data}`);
 	});

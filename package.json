@@ -1,0 +1,27 @@
+{
+  "name": "injnu-server",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "dependencies": {
+    "cheerio": "^0.22.0",
+    "express": "^4.14.0",
+    "form-data": "^2.1.2",
+    "jsonwebtoken": "^7.1.9",
+    "mysql": "^2.12.0"
+  },
+  "author": "",
+  "license": "ISC",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/moyuyc/injnu-server.git"
+  },
+  "bugs": {
+    "url": "https://github.com/moyuyc/injnu-server/issues"
+  },
+  "homepage": "https://github.com/moyuyc/injnu-server#readme",
+  "description": ""
+}

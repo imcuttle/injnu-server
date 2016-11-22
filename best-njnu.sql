@@ -18,6 +18,8 @@
 drop database if exists `best-njnu`;
 create database `best-njnu`;
 
+use `best-njnu`;
+
 --
 -- Table structure for table `comments`
 --

@@ -53,7 +53,7 @@ function getUserAllInfo(id) {
 	})
 }
 api.all('/cache/get', (req, res) => {
-	res.json(njnu.getCache())
+	res.json(njnu.getCache().checkStudent)
 })
 api.all('/cache/clear', (req, res) => {
 	njnu.clearCache()

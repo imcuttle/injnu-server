@@ -99,9 +99,9 @@ module.exports = {
 				$('.alert.alert-dismissable.alert-success').length!==0
 			)
 			.then(f=>{
-				if(f) {
+				// if(f) {
 					CACHE.checkStudent[`${id}-${password}`] = f;
-				}
+				// }
 				return f;
 			})
 	},

@@ -24,7 +24,7 @@ app.use(logger('dev'));
 app.use((req, res, next) => {
 	res.header('Access-Control-Origin', '*')
 	res.header('Access-Control-Methods', 'PUT,POST,GET')
-	res.header('Content-Type', "application/json;charset=utf-8")
+	// res.header('Content-Type', "application/json;charset=utf-8")
 	next();
 })
 

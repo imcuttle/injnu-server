@@ -77,7 +77,7 @@ api.use((req, res, next)=>{
 		req.tokenJson = req.token && verifyToken(req.token)
 		console.info('tokenJson', req.tokenJson)
 	} catch(ex) {
-		res.json({code: 200, result: 'token解析出错'});
+		res.json({code: 400, result: 'token解析出错'});
 		return;
 	}
 	if(req.token) {
@@ -86,13 +86,13 @@ api.use((req, res, next)=>{
 			userdb.check(req.tokenJson.id)
 		]).then(flags => {
 			if(flags.some(f=>!f)) {
-				res.json({code: 200, result: '错误的token'});
+				res.json({code: 400, result: '错误的token'});
 			} else {
 				next()
 			}
 		})
 	} else
-		res.json({code: 200, result: '不存在token'});
+		res.json({code: 400, result: '不存在token'});
 })
 
 api.get('/user/get', (req, res, next) => {

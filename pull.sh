@@ -9,7 +9,7 @@ fi
 echo pull on branch "$BRANCH".
 if which git >/dev/null; then
     echo git exists.
-    git pull
+    git pull origin "$BRANCH"
 else
     echo git not exists.
 fi

@@ -48,7 +48,7 @@ app.all('/pull', (req, res) => {
 	});
 	var ls = require('child_process').spawn('./pull.sh', ['master'])
 	ls.stdout.on('data', (data) => {
-		res.write(`stdout: ${data}`);
+		res.write(`${data}`);
 	});
 
 	ls.stderr.on('data', (data) => {

@@ -52,11 +52,13 @@ app.all('/pull', (req, res) => {
 	});
 	var ls = require('child_process').spawn('git', ['pull', 'origin', 'master'])
 	ls.stdout.on('data', (data) => {
+		data = data.toString()
 		console.log(data)
 		res.write(`${data}`);
 	});
 
 	ls.stderr.on('data', (data) => {
+		data = data.toString()
 		console.log(data)
 		res.write(`${data}`);
 	});

@@ -53,6 +53,10 @@ function getUserAllInfo(id) {
 	})
 }
 
+api.all('/cache/clear', (req, res) => {
+	njnu.clearCache()
+	res.json(njnu.getCache())
+})
 api.post('/user/login', (req, res, next)=>{
 	var stu = {
 		id: req.body.id,

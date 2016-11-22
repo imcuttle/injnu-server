@@ -1,7 +1,6 @@
 #!/usr/bin/env bash
 
 BRANCH="master"
-
 if [ -n "$1" ]; then
     BRANCH=$1
 fi

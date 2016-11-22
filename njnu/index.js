@@ -27,13 +27,17 @@ var FormData = require('form-data');
 
 setInterval(() => {
 	saveCache()
-	Object.getOwnPropertyNames(CACHE)
-	.forEach(name=>CACHE[name]={})
+	clearCache()
 }, 1000*60*60*24*7)
 
 process.on('exit', () => {
 	saveCache()
 })
+
+function clearCache() {
+	Object.getOwnPropertyNames(CACHE)
+		.forEach(name=>CACHE[name]={})
+}
 
 function saveCache() {
 	fs.writeFileSync(CACHEPATH, JSON.stringify(CACHE))
@@ -46,6 +50,10 @@ process.on('SIGINT', () => {
 
 
 module.exports = {
+	getCache() {
+		return CACHE
+	},
+	clearCache,
 	getToken(url) {
 		url = url || URL
 		return spider.get(url, {}, 'jq')
@@ -80,13 +88,13 @@ module.exports = {
 		})
 	},
 	checkStudent(id, password) {
-		if(CACHE.checkStudent[id] != null) {
+		if(CACHE.checkStudent[`${id}-${password}`] != null) {
 			return new Promise(r=>r(CACHE.checkStudent[`${id}-${password}`]))
 		}
 		return this._getJq(id, password)
 			.then($=>$('.alert.alert-dismissable.alert-success').length!==0)
 			.then(f=>{
-				CACHE.checkStudent[id] = f;
+				CACHE.checkStudent[`${id}-${password}`] = f;
 				return f;
 			})
 	},

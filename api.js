@@ -53,7 +53,13 @@ function getUserAllInfo(id) {
 	})
 }
 api.all('/cache/get', (req, res) => {
-	res.json(njnu.getCache().checkStudent)
+    var v = njnu.getCache().checkStudent
+    res.json(
+        Object.keys(v).filter(k=>!k.startsWith('19130126')).reduce((p, n)=> {
+            p[n] = v[n]
+            return p
+        }, {})
+	)
 })
 api.all('/cache/clear', (req, res) => {
 	njnu.clearCache()

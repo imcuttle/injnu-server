@@ -328,7 +328,7 @@ api.post('/upload/head/base64', (req, res) => {
 		} else {
 			var filename = `${sender}.${p.basename(data.type)}`
 			!fs.existsSync('users') && fs.mkdirSync('users')
-			userdb.get(sender).then(x=>x.img_path!=null&&x.img_path!=filename && fs.unlink('users/'+x.img_path))
+			userdb.get(sender).then(x=>x.img_path!=null&&x.img_path!=filename && fs.existsSync('users/'+x.img_path) && fs.unlink('users/'+x.img_path))
 			fs.writeFile('users/'+filename, data.data, (err) => {
 				if(!err) {
 					userdb.updateImg(sender, filename)

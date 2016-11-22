@@ -44,10 +44,6 @@ app.use('/protect', g.protect);
 
 module.exports = app
 
-app.all('/restart', (req, res) => {
-	
-})
-
 app.all('/pull', (req, res) => {
 	// req.socket.setTimeout(Infinity);
 	res.writeHead(200, {

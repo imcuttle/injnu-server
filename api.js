@@ -67,7 +67,9 @@ api.post('/user/login', (req, res, next)=>{
 	njnu.checkStudent(stu.id, stu.password)
 	.then(flag=>{
 		if(flag) {
-			userdb.check(stu.id).then( f => !f&&userdb.add(stu.id, stu.password) )
+			userdb.check(stu.id).then( f =>
+				!f&&userdb.add(stu.id, stu.password)
+			).catch()
 			var token = jwt.sign(stu, SECRET, {noTimestamp: true});
 			res.json(obj(200, token));
 		} else {
@@ -92,11 +94,11 @@ api.use((req, res, next)=>{
 			userdb.check(req.tokenJson.id)
 		]).then(flags => {
 			if(flags.some(f=>!f)) {
-				res.json({code: 400, result: '错误的token'});
+				res.json({code: 400, result: '用户不存在'});
 			} else {
 				next()
 			}
-		})
+		}).catch(err=>res.json({code: 500, result: err.message}))
 	} else
 		res.json({code: 400, result: '不存在token'});
 })
@@ -295,7 +297,9 @@ api.get('/lookup/score', (req, res) => {
 		} else
 			res.json({code: 200, result: {data}})
 	})
-	.catch(err=>res.json({code: 502, result: err.message}))
+	.catch(err=>{
+		res.json({code: 502, result: err.message})
+	})
 })
 
 api.get('/info/get', (req, res) => {
@@ -308,7 +312,9 @@ api.get('/info/get', (req, res) => {
 		Promise.all([
 			commentdb.getByUser(id),
 			dissdb.getByUser(id)
-		]).then((vals)=>res.json(obj(200, Object.assign(info, {commentNumber: vals[0].length, discussNumber: vals[1].length}))))
+		]).then((vals)=>
+			res.json(obj(200, Object.assign(info, {commentNumber: vals[0].length, discussNumber: vals[1].length})))
+		)
 	)
 	.catch(err=>res.json(obj(502, err.message)))
 })

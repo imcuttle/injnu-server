@@ -49,7 +49,7 @@ module.exports = {
                     if(err) {console.error(err); reject(err)}
                     else {
                         if(rlt.length===0)
-                            reject(new Error("用户不存在"));
+                            resolve(null);
                         resolve(rlt.length===1 ? rlt[0]: rlt);
                     }
                 }

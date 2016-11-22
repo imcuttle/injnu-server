@@ -88,13 +88,20 @@ module.exports = {
 		})
 	},
 	checkStudent(id, password) {
-		if(CACHE.checkStudent[`${id}-${password}`] != null) {
+		if(!id || !password) {
+			return Promise.resolve(false)
+		}
+		if(CACHE.checkStudent[`${id}-${password}`]) {
 			return new Promise(r=>r(CACHE.checkStudent[`${id}-${password}`]))
 		}
 		return this._getJq(id, password)
-			.then($=>$('.alert.alert-dismissable.alert-success').length!==0)
+			.then($=>
+				$('.alert.alert-dismissable.alert-success').length!==0
+			)
 			.then(f=>{
-				CACHE.checkStudent[`${id}-${password}`] = f;
+				if(f) {
+					CACHE.checkStudent[`${id}-${password}`] = f;
+				}
 				return f;
 			})
 	},

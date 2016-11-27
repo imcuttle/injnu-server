@@ -54,6 +54,29 @@ module.exports = {
 		return CACHE
 	},
 	clearCache,
+    loginApi(id, pwd) {
+        return spider.get("http://api.chaiziyi.com.cn/jwgl/login", {username: id, password: pwd}, 'json')
+    },
+    scheduleApi(id, pwd, year, term) {
+        return this.loginApi(id, pwd).then(json=>Object.keys(json.cookies).map(k=>k+'='+json.cookies[k]).join(''))
+        .then(cookie=>spider.get("http://api.chaiziyi.com.cn/jwgl/schedule", {xn: year, xq: term}, 'json', {cookie}))
+        .then(x=>{
+            if(x.status==200) {
+               return x.kcb.map(x=>{
+                    return {
+                        teacher: x.ls,
+                        address: x.skdd,
+                        name: x.kcm,
+                        time: x.sksj,
+                        week: Number(x.rq.substr(1, 1)),
+                        segment: Number(x.rq.substr(2, 1))
+                    }
+                })
+            } else {
+                return;
+            }
+        })
+    },
 	getToken(url) {
 		url = url || URL
 		return spider.get(url, {}, 'jq')
@@ -94,10 +117,8 @@ module.exports = {
 		if(CACHE.checkStudent[`${id}-${password}`]) {
 			return new Promise(r=>r(CACHE.checkStudent[`${id}-${password}`]))
 		}
-		return this._getJq(id, password)
-			.then($=>
-				$('.alert.alert-dismissable.alert-success').length!==0
-			)
+		return this.loginApi(id, password)
+			.then(json=>json.status==200)
 			.then(f=>{
 				// if(f) {
 					CACHE.checkStudent[`${id}-${password}`] = f;
@@ -227,3 +248,5 @@ module.exports = {
 		return arr
 	}
 }
+
+module.exports.scheduleApi('19130126', 'pigyc6708', 2016, 0)

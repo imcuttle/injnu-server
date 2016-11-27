@@ -44,7 +44,7 @@ function getUserAllInfo(id) {
 				return localIp().then(ip=>{
 					var path = u.img_path
 					delete u.img_path
-					return Object.assign(u, info, {img: "http://"+ip+'/users/'+path})
+					return Object.assign(u, info, {img: "http://"+ip+':'+process.env.PORT+'/users/'+path})
 				})
 			}
 			delete u.img_path
@@ -399,10 +399,19 @@ api.post('/face/url', (req, res) => {
 		njnu.faceMatchUrl(data)
 		.then(list=>list.length>0?obj(200, list):obj(400, '没有找到匹配结果'))
 		.catch(err=>obj(502, err.message))
-		.then(x=>{
-			res.json(x)
-		})
+		.then(x=>res.json(x))
 	}
+})
+
+api.get('/schedule', (req, res) => {
+    var tokenJson = req.tokenJson;
+    var sender = tokenJson.id, password = tokenJson.password;
+    var ent = req.query;
+    var year = ent.year, term = ent.term;
+    Promise.all([getUserAllInfo(sender), njnu.scheduleApi(sender, password, year, term)])
+    .then(infodata=>x?obj(200, {info: infodata[0], data: infodata[1]}):obj(400, '没有找到相应的课程'))
+    .catch(err=>obj(502, err.message))
+    .then(x=>res.json(x))
 })
 
 module.exports = api;

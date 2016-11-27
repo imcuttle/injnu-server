@@ -34,7 +34,7 @@ module.exports = {
 	get(url, params, type, headers) {
 		return new Promise(resolve => {
 			request(
-				Object.assign({},u.parse(url), {headers: headers || {}}),
+				Object.assign({},u.parse(url+'?'+querystring.stringify(params)), {headers: headers || {}}),
 				res => {
 					if(res.statusCode!==200) {
 						console.error('GET', res.statusCode, url, JSON.stringify(params))
@@ -47,9 +47,10 @@ module.exports = {
 			        	var html = Buffer.concat(chunks).toString();
 			        	if(type==='jq') {
 			        		resolve($.load(html))
-			        	} else {
-			        		resolve(html);
-			        	}
+			        	} else if('json') {
+							resolve(JSON.parse(html));
+			        	} else
+							resolve(html);
 			        })
 
 				}

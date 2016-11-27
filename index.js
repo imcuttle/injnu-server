@@ -77,7 +77,7 @@ app.all('/npmi', (req, res) => {
 		'Cache-Control': 'no-cache',
 		'Connection': 'keep-alive'
 	});
-	var ls = require('child_process').spawn('npm', ['install'])
+	var ls = require('child_process').spawn('cnpm', ['install'])
 	ls.stdout.on('data', (data) => {
 		data = data.toString()
 		console.log(data)

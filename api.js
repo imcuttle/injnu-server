@@ -100,7 +100,7 @@ api.use((req, res, next)=>{
 			userdb.check(req.tokenJson.id)
 		]).then(flags => {
 			if(flags.some(f=>!f)) {
-				res.json({code: 400, result: '用户不存在'});
+				res.json({code: 400, result: '学号与密码不匹配'});
 			} else {
 				next()
 			}

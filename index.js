@@ -2,6 +2,10 @@ var express = require('express');
 var jwt = require('jsonwebtoken');
 var logger = require('morgan');
 var bodyParser = require('body-parser');
+var url = require('url')
+
+var http = require('http')
+var WebSocketServer = require('ws').Server
 
 var app = express();
 var path = require('path')
@@ -15,8 +19,21 @@ process.on('uncaughtException', function (err) {
 	console.error(err.stack);
 });
 
-var http = require('http').createServer(app).listen(process.env.PORT, () => {
-	console.log("server run on Port %d.", http.address().port);
+var server = http.createServer(app).listen(process.env.PORT, () => {
+	console.log("server run on Port %d.", server.address().port);
+});
+var wss = new WebSocketServer({ server: server, path: '/ws' })
+
+wss.on('connection', function connection(ws) {
+	var location = url.parse(ws.upgradeReq.url, true);
+	// you might use location.query.access_token to authenticate or share sessions
+	// or ws.upgradeReq.headers.cookie (see http://stackoverflow.com/a/16395220/151312)
+
+	ws.on('message', function incoming(message) {
+		console.log('received: %s', message);
+	});
+	ws.send('something')
+
 });
 
 app.use('/users', express.static(__dirname + '/users'))

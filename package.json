@@ -4,6 +4,7 @@
   "main": "parent.js",
   "scripts": {
     "start": "node parent.js",
+    "dev": "ENV=dev node parent.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "dependencies": {

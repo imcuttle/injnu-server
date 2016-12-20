@@ -44,7 +44,7 @@ function getUserAllInfo(id) {
 				return localIp().then(ip=>{
 					var path = u.img_path
 					delete u.img_path
-					return Object.assign(u, info, {img: "http://"+ip+':'+process.env.PORT+'/users/'+path})
+					return Object.assign(u, info, {img: "http://"+ip+ (process.env.ENV=='dev'?(':'+process.env.PORT):'') +'/users/'+path})
 				})
 			}
 			delete u.img_path

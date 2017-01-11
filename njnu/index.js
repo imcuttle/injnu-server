@@ -25,10 +25,13 @@ console.info('CACHE', CACHE)
 
 var FormData = require('form-data');
 
+const oneMin = 1000*60;
+const oneHour = oneMin*60;
+const oneDay = oneHour*24;
 setInterval(() => {
 	saveCache()
 	clearCache()
-}, 1000*60*60*24*7)
+}, oneDay*1)
 
 process.on('exit', () => {
 	saveCache()
@@ -165,9 +168,9 @@ module.exports = {
 			})
 	},
 	getStudentScores(id, password) {
-		if(CACHE.score[id] != null) {
-			return new Promise(r=>r(CACHE.score[id]))
-		}
+		// if(CACHE.score[id] != null) {
+		// 	return new Promise(r=>r(CACHE.score[id]))
+		// }
 		return this._getJq(id, password)
 			.then($ => {
 				var obj = {}, terms = new Set()

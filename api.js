@@ -65,10 +65,10 @@ api.all('/cache/clear', (req, res) => {
 	njnu.clearCache()
 	res.json(njnu.getCache())
 })
-api.post('/user/login', (req, res, next)=>{
+api.all('/user/login', (req, res, next)=>{
 	var stu = {
-		id: req.body.id,
-		password: req.body.password
+		id: req.ent.id,
+		password: req.ent.password
 	};
 	njnu.checkStudent(stu.id, stu.password)
 	.then(flag=>{

@@ -53,6 +53,16 @@ app.use((req, res, next) => {
 app.all('/', (req, res, next) => {
 	res.end('Hi Njnu!');
 })
+app.use((req, res, next) => {
+    let ent;
+    if(req.method==='POST') {
+        ent = req.body
+    } else {
+        ent = req.query
+    }
+    req.ent = ent;
+    next()
+})
 
 
 app.use('/api', g.api);
